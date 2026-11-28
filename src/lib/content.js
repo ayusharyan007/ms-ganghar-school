@@ -36,8 +36,8 @@ export async function getSchoolProfile() {
   const { data, error } = await supabase.from('school_profile').select('*').limit(1).maybeSingle()
   if (error) throw error
   if (!data) return data
-  const [logo, hero] = await Promise.all([signStoragePath('school-assets', data.logo_storage_path), signStoragePath('school-assets', data.hero_storage_path)])
-  return { ...data, logo_url: data.logo_storage_path ? logo : data.logo_url, hero_image_url: data.hero_storage_path ? hero : data.hero_image_url }
+  const [logo, hero, principal] = await Promise.all([signStoragePath('school-assets', data.logo_storage_path), signStoragePath('school-assets', data.hero_storage_path), signStoragePath('school-assets', data.principal_image_storage_path)])
+  return { ...data, logo_url: data.logo_storage_path ? logo : data.logo_url, hero_image_url: data.hero_storage_path ? hero : data.hero_image_url, principal_image_url: data.principal_image_storage_path ? principal : data.principal_image_url }
 }
 export async function saveSchoolProfile(row, id) {
   if (!supabase) throw new Error('Supabase is not configured.')
